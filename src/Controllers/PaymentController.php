@@ -77,7 +77,7 @@ class PaymentController extends Controller
     public function paymentResponse()
     {
         $requestData = $this->request->all();
-
+         $this->getLogger(__METHOD__)->error('res', $requestData);
         $isPaymentSuccess = isset($requestData['status']) && in_array($requestData['status'], ['90','100']);
 
         $notifications = json_decode($this->sessionStorage->getPlugin()->getValue('notifications'));
@@ -87,7 +87,7 @@ class PaymentController extends Controller
                 'code'    => ''
             ]);
         $this->sessionStorage->getPlugin()->setValue('notifications', json_encode($notifications));
-
+       
         if($isPaymentSuccess)
         {
             if(!preg_match('/^[0-9]/', $requestData['test_mode']))
